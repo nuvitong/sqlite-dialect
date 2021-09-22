@@ -28,8 +28,14 @@ public class SqliteDialectProvider implements DialectResolver.JdbcDialectProvide
         return new ConnectionWrapper(connection);
     }
 
-    private static record ConnectionWrapper(Connection connection) {
+    private static class ConnectionWrapper {
         private static final String PRODUCT_NAME_SQLITE = "sqlite";
+
+        private final Connection connection;
+
+        private ConnectionWrapper(Connection connection) {
+            this.connection = connection;
+        }
 
         private boolean connectedToSqlite() throws SQLException {
             return getProductName().contains(PRODUCT_NAME_SQLITE);
